@@ -37,11 +37,44 @@ public class Main {
 							}
 						}
 						
+//						for (int r = 0; r < fields.get(field).length; r++){
+//							for(int c = 0; c < fields.get(field)[0].length; c++){
+//								System.out.print((fields.get(field)[r][c] ? "T" : "F"));
+//							}
+//							System.out.println();
+//						}
+						
+						
 						for (int r = 0; r < fields.get(field).length; r++){
+							//System.out.println();
 							for(int c = 0; c < fields.get(field)[0].length; c++){
-								System.out.print((fields.get(field)[r][c] ? "T" : "F"));
+								if (fields.get(field)[r][c]){
+									p("*");
+								}else{
+									int count = 0;
+									boolean cZero = (c == 0);
+									boolean cMax = ((c + 1) == fields.get(field)[r].length);
+									boolean rZero = (r == 0);
+									boolean rMax = ((r + 1) == fields.get(field).length);
+									if (fields.get(field)[r-1][c] && !rZero)
+										count++;
+									if (fields.get(field)[r-1][c-1] && !rZero && !cZero)
+										count++;
+									if (fields.get(field)[r-1][c+1] && !rZero && !cMax)
+										count++;
+									if (fields.get(field)[r+1][c] && !rMax)
+										count++;
+									if (fields.get(field)[r+1][c-1] && !rMax && !cZero)
+										count++;
+									if (fields.get(field)[r+1][c+1] && !rMax && !cMax)
+										count++;
+									if (fields.get(field)[r][c-1] && !rZero && !cZero)
+										count++;
+									if (fields.get(field)[r][c+1] && !rZero && !cMax)
+										count++;
+									p(count);
+								}
 							}
-							System.out.println();
 						}
 						
 						field++;
