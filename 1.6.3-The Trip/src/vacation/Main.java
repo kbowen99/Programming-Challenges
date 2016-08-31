@@ -30,7 +30,7 @@ public class Main {
 					nDiff += diff;
 			}
 			
-			double magic = (pDiff < (Math.abs(nDiff)) ? pDiff : (nDiff * -1));
+			double magic = Math.abs(pDiff < (Math.abs(nDiff)) ? pDiff : nDiff);
 			System.out.printf("$%.2f\n", magic);
 		}
 		sc.close();
