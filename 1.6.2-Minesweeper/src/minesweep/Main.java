@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@SuppressWarnings("unused")
 public class Main {
 
 	static Scanner sc = new Scanner(System.in);
@@ -22,14 +23,16 @@ public class Main {
 			e1.printStackTrace();
 		}
 		String input = "";
-		while (sc.hasNext()){
+		while (sc.hasNextLine()){
 			input = sc.nextLine();
-			
 				try{
-					if (Integer.parseInt((char)(input.getBytes()[0]) + "") > 0){
+					if (Integer.parseInt((char)(input.getBytes()[0]) + "") > -1){
 						int index = input.indexOf(" ");
 						n = Integer.parseInt(input.substring(0, index));
 						m = Integer.parseInt(input.substring(index + 1));
+						if (n == 0|| m == 0){
+							break;
+						}
 					}
 					if (n>0 && m>0){
 						fields.add(new boolean[n][m]);
@@ -54,11 +57,9 @@ public class Main {
 								magic[r][c] = (fields.get(field)[r][c] ? "T" : "F");
 								//System.out.print((fields.get(field)[r][c] ? "T" : "F"));
 							}
-							//System.out.println();
 						}
 						
 						for (int r = 0; r < magic.length; r++){
-							//System.out.println();
 							for(int c = 0; c < magic[0].length; c++){
 								if (magic[r][c].equals("T")){
 									System.out.print("*");
@@ -94,7 +95,6 @@ public class Main {
 					}
 				} catch (Exception e){}
 			
-
 		};
 	}
 	
