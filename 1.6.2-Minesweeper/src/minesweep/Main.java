@@ -1,5 +1,8 @@
 package minesweep;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,6 +16,11 @@ public class Main {
 	static ArrayList<boolean[][]> fields = new ArrayList<>();
 	
 	public static void main(String[] args) {
+		try {
+			System.setOut(new PrintStream(new FileOutputStream("out.txt")));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		String input = "";
 		while (sc.hasNext()){
 			input = sc.nextLine();
@@ -25,9 +33,13 @@ public class Main {
 					}
 					if (n>0 && m>0){
 						fields.add(new boolean[n][m]);
-						p("Field #" + (field + 1) + ":");
 						n = 0;
 						m = 0;
+						
+						if (field != 0){
+							System.out.println();
+						}
+						p("Field #" + (field + 1) + ":");
 						
 						for (int r = 0; r < fields.get(field).length; r++){
 							input = sc.nextLine();
@@ -36,45 +48,46 @@ public class Main {
 								fields.get(field)[r][c] = (tmp.equals("*") ? true : false);
 							}
 						}
-						
-//						for (int r = 0; r < fields.get(field).length; r++){
-//							for(int c = 0; c < fields.get(field)[0].length; c++){
-//								System.out.print((fields.get(field)[r][c] ? "T" : "F"));
-//							}
-//							System.out.println();
-//						}
-						
-						
+						String[][] magic = new String[fields.get(field).length][fields.get(field)[0].length];
 						for (int r = 0; r < fields.get(field).length; r++){
-							//System.out.println();
 							for(int c = 0; c < fields.get(field)[0].length; c++){
-								if (fields.get(field)[r][c]){
-									p("*");
+								magic[r][c] = (fields.get(field)[r][c] ? "T" : "F");
+								//System.out.print((fields.get(field)[r][c] ? "T" : "F"));
+							}
+							//System.out.println();
+						}
+						
+						for (int r = 0; r < magic.length; r++){
+							//System.out.println();
+							for(int c = 0; c < magic[0].length; c++){
+								if (magic[r][c].equals("T")){
+									System.out.print("*");
 								}else{
 									int count = 0;
 									boolean cZero = (c == 0);
 									boolean cMax = ((c + 1) == fields.get(field)[r].length);
-									boolean rZero = (r == 0);
+									boolean rZero = (r < 1);
 									boolean rMax = ((r + 1) == fields.get(field).length);
-									if (fields.get(field)[r-1][c] && !rZero)
+									if (!rZero && magic[r-1][c].equals("T"))
 										count++;
-									if (fields.get(field)[r-1][c-1] && !rZero && !cZero)
+									if (!rZero && !cZero && magic[r-1][c-1].equals("T"))
 										count++;
-									if (fields.get(field)[r-1][c+1] && !rZero && !cMax)
+									if (!rZero && !cMax && magic[r-1][c+1].equals("T"))
 										count++;
-									if (fields.get(field)[r+1][c] && !rMax)
+									if (!rMax && magic[r+1][c].equals("T"))
 										count++;
-									if (fields.get(field)[r+1][c-1] && !rMax && !cZero)
+									if (!rMax && !cZero && magic[r+1][c-1].equals("T"))
 										count++;
-									if (fields.get(field)[r+1][c+1] && !rMax && !cMax)
+									if (!rMax && !cMax && magic[r+1][c+1].equals("T"))
 										count++;
-									if (fields.get(field)[r][c-1] && !rZero && !cZero)
+									if (!cZero && magic[r][c-1].equals("T"))
 										count++;
-									if (fields.get(field)[r][c+1] && !rZero && !cMax)
+									if (!cMax && magic[r][c+1].equals("T"))
 										count++;
-									p(count);
+									System.out.print(count);
 								}
 							}
+							System.out.println();
 						}
 						
 						field++;
