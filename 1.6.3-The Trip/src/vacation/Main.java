@@ -6,8 +6,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		while (sc.hasNextLine()){
+		while (true){
 			int students = sc.nextInt();
+			if(students <= 0 || students > 1000) {
+				break;
+			}
 			if (students == 0)
 				break;
 			double avg;
@@ -19,12 +22,16 @@ public class Main {
 			double pDiff = 0,nDiff = 0;
 			for (double m : monies){
 				double diff = (m - avg);
+				diff = (double)Math.round(diff * 100d) / 100d;
+				//diff = ((double)((int)(diff * 100.0))/100);
 				if (diff > 0)
 					pDiff += diff;
 				else
 					nDiff += diff;
 			}
-			System.out.println((pDiff < (Math.abs(nDiff)) ? pDiff : (nDiff * -1)));
+			
+			double magic = (pDiff < (Math.abs(nDiff)) ? pDiff : (nDiff * -1));
+			System.out.printf("$%.2f\n", magic);
 		}
 		sc.close();
 	}
