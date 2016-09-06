@@ -7,39 +7,20 @@ public class Main {
 		int gameNum = 0;
 		while (sc.hasNext()){
 			gameNum++;
-			char[][] board = new char[8][8];
-			for (int r = 0; r < 8; r++){
+			piece[][] board = new piece[8][8];
+			
+			for (int r = 0; r < board.length; r++){
 				String input = sc.nextLine();
-				for (int c = 0; c < 8; c++){
-					board[r][c] = (char)input.getBytes()[c];
+				for (int c = 0; c < board[0].length; c++){
+					char id = (char)input.getBytes()[c];
+					board[r][c] = new piece(id);
 				}
 			}
-			System.out.print("Game #" + gameNum + ": ");
+			sc.nextLine();
+			System.out.println("Game #" + gameNum + ": ");
+			board[0][0].canKillKing(board);
+			
 		}
 		sc.close();
-	}
-	
-	public static boolean checkPawn(char[][] board, int kingsRow, int kingsCollumn){
-		return false;
-	}
-	
-	public static boolean checkRook(char[][] board, int kingsRow, int kingsCollumn){
-		return false;
-	}
-	
-	public static boolean checkBishop(char[][] board, int kingsRow, int kingsCollumn){
-		return false;
-	}
-	
-	public static boolean checkQueen(char[][] board, int kingsRow, int kingsCollumn){
-		return false;
-	}
-	
-	public static boolean checkKing(char[][] board, int kingsRow, int kingsCollumn){
-		return false;
-	}
-	
-	public static boolean checkKnight(char[][] board, int kingsRow, int kingsCollumn){
-		return false;
 	}
 }
