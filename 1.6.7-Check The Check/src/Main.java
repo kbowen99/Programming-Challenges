@@ -20,10 +20,12 @@ public class Main {
 			boolean kingDown = false;
 			boolean sideDown = false;// white = true; black = false;
 			for (piece[] row : board)
-				for (piece p : row) {
+				for (piece p : row){
 					kingDown = kingDown || p.canKillKing(board);
+					//sideDown = !p.getSide();
 				}
-			System.out.print("Game #" + gameNum + ": " + (kingDown ? (sideDown ? "white king is in check." : "black king is in check.") : "no king is in check."));
+			//System.out.print("Game #" + gameNum + ": " + (kingDown ? (sideDown ? "white king is in check." : "black king is in check.") : "no king is in check."));
+			System.out.print("Game #" + gameNum + ": " + (kingDown ? "king is in check" : "no king is in check."));
 			sc.nextLine();
 
 		}
