@@ -13,7 +13,7 @@ public class piece {
 		this.id = id;
 		this.c = c;
 		this.r = r;
-		side = ((int)id < 97); //if caps
+		side = Character.isUpperCase(id); //((int)id < 97); //if caps
 		king = (id == 'k' || id == 'K');
 		otherID = id + "";
 		otherID = ((id == 'p' || id == 'P') ? "pawn" : otherID);
@@ -21,6 +21,7 @@ public class piece {
 		otherID = ((id == 'b' || id == 'B') ? "bishop" : otherID);
 		otherID = ((id == 'q' || id == 'Q') ? "queen" : otherID);
 		otherID = ((id == 'k' || id == 'K') ? "king" : otherID);
+		otherID = ((id == 'n' || id == 'N') ? "knight" : otherID);
 	}
 	
 	public boolean isKing(){
@@ -87,24 +88,79 @@ public class piece {
 			return canKill;
 		} else if (this.getID().equals("rook")){
 			//until 0
-			for (int i = r; i > 0; i--)
+			for (int i = r; i >= 0; i--)
 				canKill = canKill || kingOnBoard(board, i, c);
 			//until 8
 			for (int i = r; i < 8; i++)
 				canKill = canKill || kingOnBoard(board, i, c);
 			//until 0
-			for (int i = c; i > 0; i--)
+			for (int i = c; i >= 0; i--)
 				canKill = canKill || kingOnBoard(board, r, i);
 			//until 8
 			for (int i = c; i < 8; i++)
 				canKill = canKill || kingOnBoard(board, r, i);
 			return canKill;
 		} else if (this.getID().equals("bishop")){
-			//check bishop
+			//Diag top-Left
+			for (int i = 0; (r-i >= 0) && (c-i >= 0); i++)
+				canKill = canKill || kingOnBoard(board, r - i, c - i);
+			//Diag Top Right
+			for (int i = 0; (r-i >= 0) && (c+i < 8); i++)
+				canKill = canKill || kingOnBoard(board, r - i, c + i);
+			//Diag Bot. Left
+			for (int i = 0; (r+i < 8) && (c-i >= 0); i++)
+				canKill = canKill || kingOnBoard(board, r + i, c - i);
+			//diag Bot. Right
+			for (int i = 0; (r+i < 8) && (c+i < 8); i++)
+				canKill = canKill || kingOnBoard(board, r + i, c + i);
+			return canKill;
 		} else if (this.getID().equals("queen")){
-			//check queen
+			//Check Bishop
+				//Diag top-Left
+				for (int i = 0; (r-i >= 0) && (c-i > 0); i++)
+					canKill = canKill || kingOnBoard(board, r - i, c - i);
+				//Diag Top Right
+				for (int i = 0; (r-i >= 0) && (c+i < 8); i++)
+					canKill = canKill || kingOnBoard(board, r - i, c + i);
+				//Diag Bot. Left
+				for (int i = 0; (r+i < 8) && (c-i > 0); i++)
+					canKill = canKill || kingOnBoard(board, r + i, c - i);
+				//diag Bot. Right
+				for (int i = 0; (r+i < 8) && (c+i < 8); i++)
+					canKill = canKill || kingOnBoard(board, r + i, c + i);
+			//Check Rook
+				//until 0
+				for (int i = r; i >= 0; i--)
+					canKill = canKill || kingOnBoard(board, i, c);
+				//until 8
+				for (int i = r; i < 8; i++)
+					canKill = canKill || kingOnBoard(board, i, c);
+				//until 0
+				for (int i = c; i >= 0; i--)
+					canKill = canKill || kingOnBoard(board, r, i);
+				//until 8
+				for (int i = c; i < 8; i++)
+					canKill = canKill || kingOnBoard(board, r, i);
+				return canKill;
 		} else if (this.getID().equals("knight")){
-			//check knight
+			//Top
+			if (r - 1 >= 0 && c + 2 < 8)
+				canKill = canKill || kingOnBoard(board, r - 1, c + 2);
+			if (r - 1 >= 0 && c - 2 >= 0)
+				canKill = canKill || kingOnBoard(board, r - 1, c - 2);
+			if (r - 2 >= 0 && c - 1 >= 0)
+				canKill = canKill || kingOnBoard(board, r - 2, c - 1);
+			if (r - 2 >= 0 && c + 1 < 8)
+				canKill = canKill || kingOnBoard(board, r - 2, c + 1);
+			//Bottom
+			if (r + 1 < 8 && c + 2 < 8)
+				canKill = canKill || kingOnBoard(board, r + 1, c + 2);
+			if (r + 1 < 8 && c - 2 >= 0)
+				canKill = canKill || kingOnBoard(board, r + 1, c - 2);
+			if (r + 2 < 8 && c - 1 >= 0)
+				canKill = canKill || kingOnBoard(board, r + 2, c - 1);
+			if (r + 2 < 8 && c + 1 < 8)
+				canKill = canKill || kingOnBoard(board, r + 2, c + 1);
 		}
 		
 		return canKill;
@@ -112,6 +168,13 @@ public class piece {
 	
 	@SuppressWarnings("unused")
 	private boolean kingOnBoard(piece[][] board, int r, int c){
-		return (board[r][c].isKing() && (board[r][c].getSide() != this.getSide()));
+		boolean canKill = board[r][c].isKing() && (board[r][c].getSide() != this.getSide());
+		if (canKill){
+			System.out.println("Piece Side: " + this.getSide());
+			System.out.println("King Side: " + board[r][c].getSide());
+			System.out.println("King Killed: " + r + " , " + c);
+			System.out.println("Piece Killing: " + this.r + " , " + this.c);
+		}
+		return canKill;
 	}
 }
