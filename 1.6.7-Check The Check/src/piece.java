@@ -1,5 +1,6 @@
 
 public class piece {
+	boolean kingSideKilled = true;
 	boolean side; //True = caps = white
 	boolean king;
 	char id;
@@ -70,19 +71,19 @@ public class piece {
 				canKill = canKill || (board[r+1][c+1].isKing() && (board[r+1][c+1].getSide() != this.getSide()));
 			return canKill;
 		} else if (this.getID().equals("pawn")){
-			if (this.side){
+			if (this.side){//White & True & Up
 				if (!rZero){
 					if (!cZero)
-						canKill = canKill || (board[r-1][c-1].isKing() && (board[r-1][c-1].getSide() != this.getSide()));
+						canKill = canKill || kingOnBoard(board, r-1, c-1);
 					if (!cMax)
-						canKill = canKill || (board[r-1][c+1].isKing() && (board[r-1][c+1].getSide() != this.getSide()));
+						canKill = canKill || kingOnBoard(board, r-1, c+1);
 				}
-			} else {
+			} else {//Black & false & Down
 				if (!rMax){
 					if (!cZero)
-						canKill = canKill || (board[r+1][c-1].isKing() && (board[r+1][c-1].getSide() != this.getSide()));
+						canKill = canKill || kingOnBoard(board, r+1, c-1);
 					if (!cMax)
-						canKill = canKill || (board[r+1][c+1].isKing() && (board[r+1][c+1].getSide() != this.getSide()));
+						canKill = canKill || kingOnBoard(board, r+1, c+1);
 				}
 			}
 			return canKill;
@@ -166,10 +167,15 @@ public class piece {
 		return canKill;
 	}
 	
+	public boolean getKingSideKilled(){
+		return this.kingSideKilled;
+	}
+	
 	@SuppressWarnings("unused")
 	private boolean kingOnBoard(piece[][] board, int r, int c){
 		boolean canKill = board[r][c].isKing() && (board[r][c].getSide() != this.getSide());
-		if (canKill){
+		this.kingSideKilled = board[r][c].getSide();
+		if (canKill && Main.DEBUG){
 			System.out.println("Piece Side: " + this.getSide());
 			System.out.println("King Side: " + board[r][c].getSide());
 			System.out.println("King Killed: " + r + " , " + c);

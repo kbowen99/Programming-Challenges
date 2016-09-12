@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	static final boolean DEBUG = true;
+	static final boolean DEBUG = false;
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -29,7 +29,8 @@ public class Main {
 			for (piece[] row : board)
 				for (piece p : row){
 					kingDown = kingDown || p.canKillKing(board);
-					sideDown = !p.getSide();
+					if (p.canKillKing(board))
+						sideDown = p.getKingSideKilled();
 				}
 			System.out.println("Game #" + gameNum + ": " + (kingDown ? (sideDown ? "white king is in check." : "black king is in check.") : "no king is in check."));
 			//System.out.println("Game #" + gameNum + ": " + (kingDown ? "king is in check" : "no king is in check."));
