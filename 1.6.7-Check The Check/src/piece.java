@@ -89,58 +89,58 @@ public class piece {
 			return canKill;
 		} else if (this.getID().equals("rook")){
 			//until 0
-			for (int i = r; i >= 0; i--)
+			for (int i = r; i >= 0 && isC(i, c, board, "rook"); i--)
 				canKill = canKill || kingOnBoard(board, i, c);
 			//until 8
-			for (int i = r; i < 8; i++)
+			for (int i = r; i < 8 && isC(i, c, board, "rook"); i++)
 				canKill = canKill || kingOnBoard(board, i, c);
 			//until 0
-			for (int i = c; i >= 0; i--)
+			for (int i = c; i >= 0 && isC(r, i, board, "rook"); i--)
 				canKill = canKill || kingOnBoard(board, r, i);
 			//until 8
-			for (int i = c; i < 8; i++)
+			for (int i = c; i < 8 && isC(r, i, board, "rook"); i++)
 				canKill = canKill || kingOnBoard(board, r, i);
 			return canKill;
 		} else if (this.getID().equals("bishop")){
 			//Diag top-Left
-			for (int i = 0; (r-i >= 0) && (c-i >= 0); i++)
+			for (int i = 0; (r-i >= 0) && (c-i >= 0) && isC(r-i, c-i, board, "bishop"); i++)//&& 
 				canKill = canKill || kingOnBoard(board, r - i, c - i);
 			//Diag Top Right
-			for (int i = 0; (r-i >= 0) && (c+i < 8); i++)
+			for (int i = 0; (r-i >= 0) && (c+i < 8) && isC(r-i, c+i, board, "bishop"); i++)
 				canKill = canKill || kingOnBoard(board, r - i, c + i);
 			//Diag Bot. Left
-			for (int i = 0; (r+i < 8) && (c-i >= 0); i++)
+			for (int i = 0; (r+i < 8) && (c-i >= 0) && isC(r+i, c-i, board, "bishop"); i++)
 				canKill = canKill || kingOnBoard(board, r + i, c - i);
 			//diag Bot. Right
-			for (int i = 0; (r+i < 8) && (c+i < 8); i++)
+			for (int i = 0; (r+i < 8) && (c+i < 8) && isC(r+i, c+i, board, "bishop"); i++)
 				canKill = canKill || kingOnBoard(board, r + i, c + i);
 			return canKill;
 		} else if (this.getID().equals("queen")){
 			//Check Bishop
 				//Diag top-Left
-				for (int i = 0; (r-i >= 0) && (c-i > 0); i++)
+				for (int i = 0; (r-i >= 0) && (c-i >= 0) && isC(r-i, c-i, board, "bishop"); i++)//&& 
 					canKill = canKill || kingOnBoard(board, r - i, c - i);
 				//Diag Top Right
-				for (int i = 0; (r-i >= 0) && (c+i < 8); i++)
+				for (int i = 0; (r-i >= 0) && (c+i < 8) && isC(r-i, c+i, board, "bishop"); i++)
 					canKill = canKill || kingOnBoard(board, r - i, c + i);
 				//Diag Bot. Left
-				for (int i = 0; (r+i < 8) && (c-i > 0); i++)
+				for (int i = 0; (r+i < 8) && (c-i >= 0) && isC(r+i, c-i, board, "bishop"); i++)
 					canKill = canKill || kingOnBoard(board, r + i, c - i);
 				//diag Bot. Right
-				for (int i = 0; (r+i < 8) && (c+i < 8); i++)
+				for (int i = 0; (r+i < 8) && (c+i < 8) && isC(r+i, c+i, board, "bishop"); i++)
 					canKill = canKill || kingOnBoard(board, r + i, c + i);
 			//Check Rook
 				//until 0
-				for (int i = r; i >= 0; i--)
+				for (int i = r; i >= 0 && isC(i, c, board, "rook"); i--)
 					canKill = canKill || kingOnBoard(board, i, c);
 				//until 8
-				for (int i = r; i < 8; i++)
+				for (int i = r; i < 8 && isC(i, c, board, "rook"); i++)
 					canKill = canKill || kingOnBoard(board, i, c);
 				//until 0
-				for (int i = c; i >= 0; i--)
+				for (int i = c; i >= 0 && isC(r, i, board, "rook"); i--)
 					canKill = canKill || kingOnBoard(board, r, i);
 				//until 8
-				for (int i = c; i < 8; i++)
+				for (int i = c; i < 8 && isC(r, i, board, "rook"); i++)
 					canKill = canKill || kingOnBoard(board, r, i);
 				return canKill;
 		} else if (this.getID().equals("knight")){
@@ -171,6 +171,12 @@ public class piece {
 		return this.kingSideKilled;
 	}
 	
+	private boolean isC(int r, int c, piece[][] board, String ignoredID){
+		//System.out.println(board[r][c].getID());
+		return board[r][c].getID().equals(".") || board[r][c].isKing() || board[r][c].getID().equals(ignoredID);
+		//return true;
+	}
+	
 	@SuppressWarnings("unused")
 	private boolean kingOnBoard(piece[][] board, int r, int c){
 		boolean canKill = board[r][c].isKing() && (board[r][c].getSide() != this.getSide());
@@ -181,6 +187,7 @@ public class piece {
 			System.out.println("King Killed: " + r + " , " + c);
 			System.out.println("Piece Killing: " + this.r + " , " + this.c);
 		}
+		
 		return canKill;
 	}
 }
