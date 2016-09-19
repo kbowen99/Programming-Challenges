@@ -28,8 +28,10 @@ public class Main {
 			/*
 			 * "X" Command - For Quitters
 			 */
-			if (input.substring(0, 1).equals("X"))
+			if (input.substring(0, 1).equals("X")){
+				System.out.println();
 				break;
+			}
 
 			/*
 			 * "L" Command - Color a pixel
@@ -133,6 +135,7 @@ public class Main {
 
 		}
 		sc.close();
+		System.exit(0);
 	}
 
 	private static char[][] clearPic(char[][] pic) {
@@ -162,42 +165,43 @@ public class Main {
 			boolean YP = (Y + 1) < picture[0].length;
 			boolean YM = Y != 0;
 			// X-
-			if (X != 0 && picture[X - 1][Y] == oldChar) {
+			if (XM && picture[X - 1][Y] == oldChar) {
 				recursiveColor(X - 1, Y, C, picture);
-				break;
+				//break;
 			}
 			// X+
-			if ((X + 1) < picture.length && picture[X + 1][Y] == oldChar) {
+			if (XP && picture[X + 1][Y] == oldChar) {
 				recursiveColor(X + 1, Y, C, picture);
-				break;
+				//break;
 			}
 			// Y-
-			if (Y != 0 && picture[X][Y - 1] == oldChar) {
+			if (YM && picture[X][Y - 1] == oldChar) {
 				recursiveColor(X, Y - 1, C, picture);
-				break;
+				//break;
 			}
 			// Y+
-			if ((Y + 1) < picture[0].length && picture[X][Y + 1] == oldChar) {
+			if (YP && picture[X][Y + 1] == oldChar) {
 				recursiveColor(X, Y + 1, C, picture);
-				break;
+				//break;
 			}
-			//-------------------------
-			// X- Y-
-			if (XM && YM && picture[X - 1][Y - 1] == oldChar) {
-				recursiveColor(X - 1, Y - 1, C, picture);
-			}
-			// X- Y+
-			if (XM && YP && picture[X - 1][Y + 1] == oldChar) {
-				recursiveColor(X - 1, Y + 1, C, picture);
-			}
-			// X+ Y+
-			if (XP && YP && picture[X + 1][Y + 1] == oldChar) {
-				recursiveColor(X + 1, Y + 1, C, picture);
-			}
-			// X+ Y-
-			if (XP && YM && picture[X + 1][Y - 1] == oldChar) {
-				recursiveColor(X + 1, Y - 1, C, picture);
-			}
+			
+//			//-------------------------
+//			// X- Y-
+//			if (XM && YM && picture[X - 1][Y - 1] == oldChar) {
+//				recursiveColor(X - 1, Y - 1, C, picture);
+//			}
+//			// X- Y+
+//			if (XM && YP && picture[X - 1][Y + 1] == oldChar) {
+//				recursiveColor(X - 1, Y + 1, C, picture);
+//			}
+//			// X+ Y+
+//			if (XP && YP && picture[X + 1][Y + 1] == oldChar) {
+//				recursiveColor(X + 1, Y + 1, C, picture);
+//			}
+//			// X+ Y-
+//			if (XP && YM && picture[X + 1][Y - 1] == oldChar) {
+//				recursiveColor(X + 1, Y - 1, C, picture);
+//			}
 			break;
 		}
 
