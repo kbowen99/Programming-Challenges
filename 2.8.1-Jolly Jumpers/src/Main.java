@@ -30,7 +30,10 @@ public class Main {
 			}
 
 			// check diffs
-			System.out.println((isJolly(diffs) ? "Jolly" : "Not jolly"));
+			if (nums.size() > 1)
+				System.out.println((isJolly(diffs) ? "Jolly" : "Not jolly"));
+			else
+				System.out.println("Jolly");
 
 			if (DEBUG) {
 				System.out.println("INPUT:");
