@@ -18,10 +18,32 @@ public class Main {
 				Shuffles.add(newShuffle);
 			}
 			
-			for (int[] magic: Shuffles)
-				for (int i : magic)
-					System.out.println(i);
+			int[] currGame = new int[52];
+			for (int i = 0; i < 52; i++)
+				currGame[i] = i + 1;
+			
+			sc.nextLine();
+			while (true){
+				String input = sc.nextLine();
+				//System.out.println("Shuffling: " + input);
+				if (input.trim().equals(""))
+					break;
+				try{
+				currGame = performShuffle(currGame, Shuffles.get((Integer.parseInt(input) - 1)));
+				} catch (Exception e){}
+			}
+			
+			for (int i : currGame)
+				System.out.println((new Card(i)));
 		}
 		sc.close();
+	}
+	
+	private static int[] performShuffle(int[] currentGame, int[] toShuffle){
+		int[] newGame = new int[52];
+		for (int i : toShuffle){
+			newGame[i] = currentGame[toShuffle[i] - 1];
+		}
+		return newGame;
 	}
 }
