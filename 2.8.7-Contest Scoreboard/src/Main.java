@@ -38,12 +38,16 @@ public class Main {
 				
 				Collections.sort(peoples);
 			}
+			boolean outputT = false;
 			for (Participant p : peoples){
-				
-				System.out.println(p.contestantNum + " " + p.correctProbs + " " + p.totalTime);
+				String output = p.contestantNum + " " + p.correctProbs + " " + p.totalTime;
+				if (!output.trim().equalsIgnoreCase("")){
+					System.out.println(output);
+					outputT = true;
+				}
 			}
 			
-			if (peoples.size() > 0)
+			if (peoples.size() > 0 && outputT)
 				System.out.println();
 			
 		}
