@@ -11,3 +11,9 @@ Project for Miller, Choose Your Language and Implement the following
 
 
 [Project-Page](http://yhscs.us/advanced/projects/weaponOfChoice.php)
+
+
+## 3 Reasons for Choosing
+ 1. Cross Platform (No idiosyncrasies between home & school Programming)
+ 2. Object Based Programming (Allows for Custom Data Structures, Cleaner Code)
+ 3. Familiarity (1+ Years Prior Experience)
