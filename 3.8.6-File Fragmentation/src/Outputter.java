@@ -66,10 +66,12 @@ public class Outputter {
 			this.println("");
 		else //safety check
 			if (output.size() > 0) //if prior output
-				if (output.get(output.size() - 1).trim().length() < 0) //if last in queue is a space
-					java.awt.Toolkit.getDefaultToolkit().beep();
+				if (output.get(output.size() - 1).trim().length() < 1) //if last in queue is a space
+					safety = false; //useless spacing
 				else 
 					this.println("");
+			else
+				this.println("");
 	}
 	
 	/**
@@ -86,7 +88,10 @@ public class Outputter {
 	public String passQueueAsString(){
 		String out = "";
 		for (String s : output)
-			out += s + "\n";
+			if (s.equals(output.get(output.size() - 1)))
+				out += s;
+			else
+				out += s + "\n";
 		return out;
 	}
 	

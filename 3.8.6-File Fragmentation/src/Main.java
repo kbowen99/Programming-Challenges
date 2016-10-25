@@ -1,3 +1,5 @@
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,23 +11,31 @@ public class Main {
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		
+		try {
+			if (true)
+				System.setOut(new PrintStream(new FileOutputStream("out.txt")));
+		} catch (Exception e) {}
+		
 		Scanner sc = new Scanner(System.in);
 		Outputter sOut = new Outputter();
 		int tCases = sc.nextInt();
 		sc.nextLine();sc.nextLine();
+		
 		for (int useless = 0; useless < tCases; useless++){
 			ArrayList<Fragment> fragments = new ArrayList<>();
 			
 			{//Containing Variable
 				String in = sc.nextLine();
-				while (!in.equals("")){ //Input all frags
+				while (!in.equals("") && sc.hasNextLine()){ //Input all frags
 					fragments.add(new Fragment(in));
 					in = sc.nextLine();
+					
 				}
 			}
-			
+			try{
 			Collections.sort(fragments);
-			
+			} catch (Exception e) {}
 			ArrayList<ComboFrag> randyFrags = new ArrayList<>();
 			
 			while (fragments.size() >=2){
@@ -55,12 +65,17 @@ public class Main {
 				}
 			}
 			if (likelyCombos.size() > 0)
-				sOut.println(likelyCombos.get(0).getContents() + "\n");
+				sOut.println(likelyCombos.get(0).getContents());
 			else{
 				int c1 = Integer.parseInt(randyFrags.get(0).getC1().getContents());
 				int c2 = Integer.parseInt(randyFrags.get(0).getC2().getContents());
-				sOut.println((c1 < c2 ? randyFrags.get(0).getC1().getContents() : randyFrags.get(0).getC2().getContents()) + "\n");
+				//sOut.println((c1 < c2 ? "true" : "false"));
+				sOut.println((c1 < c2 ? randyFrags.get(0).getC1().getContents() : randyFrags.get(0).getC2().getContents()));
 			}
+			sOut.println();
+			sOut.println();
+			sOut.println();
+			sOut.println();
 			
 			if (DEBUG){
 				sOut.println("FRAGS:");
