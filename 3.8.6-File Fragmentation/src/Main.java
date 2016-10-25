@@ -7,8 +7,10 @@ public class Main {
 	
 	static final boolean DEBUG = false;
 
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		Outputter sOut = new Outputter();
 		int tCases = sc.nextInt();
 		sc.nextLine();sc.nextLine();
 		for (int useless = 0; useless < tCases; useless++){
@@ -21,6 +23,7 @@ public class Main {
 					in = sc.nextLine();
 				}
 			}
+			
 			Collections.sort(fragments);
 			
 			ArrayList<ComboFrag> randyFrags = new ArrayList<>();
@@ -52,28 +55,30 @@ public class Main {
 				}
 			}
 			if (likelyCombos.size() > 0)
-				System.out.println(likelyCombos.get(0).getContents() + "\n");
+				sOut.println(likelyCombos.get(0).getContents() + "\n");
 			else{
 				int c1 = Integer.parseInt(randyFrags.get(0).getC1().getContents());
 				int c2 = Integer.parseInt(randyFrags.get(0).getC2().getContents());
-				System.out.println((c1 < c2 ? randyFrags.get(0).getC1().getContents() : randyFrags.get(0).getC2().getContents()) + "\n");
+				sOut.println((c1 < c2 ? randyFrags.get(0).getC1().getContents() : randyFrags.get(0).getC2().getContents()) + "\n");
 			}
 			
 			if (DEBUG){
-				System.out.println("FRAGS:");
+				sOut.println("FRAGS:");
 				for (Fragment s : fragments)
-					System.out.println(s.getContents() + " ");
+					sOut.println(s.getContents() + " ");
 				
-				System.out.println("COMBOFRAGS:");
+				sOut.println("COMBOFRAGS:");
 				for (ComboFrag s : randyFrags)
-					System.out.println(s.getC1().getContents() + " || " + s.getFrag1().getContents() + "|" + s.getFrag2().getContents() + "\n" + s.getC2().getContents());
+					sOut.println(s.getC1().getContents() + " || " + s.getFrag1().getContents() + "|" + s.getFrag2().getContents() + "\n" + s.getC2().getContents());
 				
-				System.out.println("COMBOS:");
+				sOut.println("COMBOS:");
 				for (Fragment f : likelyCombos)
-					System.out.println(f.getContents());
+					sOut.println(f.getContents());
 			}
 			
 		}
+		sOut.dump();
+		sc.close();
 	}
 
 }
