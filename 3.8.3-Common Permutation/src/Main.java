@@ -1,6 +1,4 @@
-import java.text.Collator;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -13,8 +11,10 @@ public class Main {
 			String Out = "";
 			for (int c1 = 0; c1 < line1.length; c1++)
 				for(int c2 = 0; c2 < line2.length; c2++)
-					if ((line1[c1] == line2[c2]) && !(Out.contains(line1[c1] + "")))
+					if (line1[c1] == line2[c2]){
 						Out += line1[c1];
+						line1[c1] = '.';
+					}
 			String[] OutA = Out.split("");
 			Arrays.sort(OutA);
 			for (String c : OutA)
