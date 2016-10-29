@@ -13,7 +13,7 @@ public class Main {
 				for(int c2 = 0; c2 < line2.length; c2++)
 					if (line1[c1] == line2[c2]){
 						Out += line1[c1];
-						line1[c1] = '.';
+						break;
 					}
 			String[] OutA = Out.split("");
 			Arrays.sort(OutA);
