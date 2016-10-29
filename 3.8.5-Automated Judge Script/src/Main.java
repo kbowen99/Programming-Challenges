@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-	static final boolean DEBUG = false;
+	static final boolean DEBUG = false;;;
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int run = 1;
@@ -34,6 +35,9 @@ public class Main {
 				p("Run #" + run + ": Wrong Answer");
 			
 			run++;
+			
+			if (DEBUG)
+				p("------------------------------------------");
 		}
 		} catch (Exception e) {}
 		sc.close();
@@ -53,17 +57,62 @@ public class Main {
 	
 	private static boolean arrIsSimiliar(String[] arr1, String[] arr2){
 		boolean isEqual = true;
-		if (arr1.length != arr2.length)
-			return false;
-		for (int i = 0; i < arr1.length; i++){//for each element
-			char[] ar1Char = (arr1[i]).toCharArray();
-			for (char c1 : ar1Char){
-				if (!((arr2[i]).contains(c1 + "")))
-					if (c1 < 59)
-						isEqual = false;
+		ArrayList<Integer> inArr1 = new ArrayList<>();
+		ArrayList<Integer> inArr2 = new ArrayList<>();
+		
+		//Get Every Int in Arr1
+		for (String s : arr1){
+			char[] currentline = s.toCharArray();
+			for (char c : currentline){
+				try{
+					inArr1.add(Integer.parseInt(c + ""));
+				} catch (Exception e){}
 			}
 		}
 		
+		//Get Every Int in Arr2
+		for (String s : arr2){
+			char[] currentline = s.toCharArray();
+			for (char c : currentline){
+				try{
+					inArr2.add(Integer.parseInt(c + ""));
+				} catch (Exception e){}
+			}
+		}
+		
+		if (DEBUG){
+			p("INTS IN ARR1:");
+			for (Integer i : inArr1)
+				p(i.toString());
+			p("INTS IN ARR2:");
+			for (Integer i : inArr2)
+				p(i.toString());
+			
+		}
+		
+		
+		if (inArr1.size() == inArr2.size())
+			for (int i =0; i < inArr1.size(); i++){
+				if ((inArr1.get(i).intValue() == inArr2.get(i).intValue())){
+					
+				} else{
+					isEqual = false;
+				}
+			}
+		else
+			isEqual = false;
+		
+		//-------------Old Version------------------
+//		if (arr1.length != arr2.length)
+//			return false;
+//		for (int i = 0; i < arr1.length; i++){//for each element
+//			char[] ar1Char = (arr1[i]).toCharArray();
+//			for (char c1 : ar1Char){
+//				if (!((arr2[i]).contains(c1 + "")))
+//					if (c1 < 59)
+//						isEqual = false;
+//			}
+//		}
 		return isEqual;
 	}
 	
