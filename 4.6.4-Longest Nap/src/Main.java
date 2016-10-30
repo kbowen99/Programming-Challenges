@@ -27,7 +27,7 @@ public class Main {
 			pSchedule(schedule);
 			
 			//checkOverlaps(schedule);
-
+			//checkOverlaps(schedule);
 			Collections.sort(schedule);
 
 			pSchedule(schedule);
@@ -46,10 +46,16 @@ public class Main {
 			for (int i = 0; i < schedule.size() - 1 && i < 1000; i++) {
 				Appointment next = schedule.get(i + 1);
 				Appointment curr = schedule.get(i);
-				if (!curr.getEndTime().equals(next.getStartTime())) {
-					schedule.add(i, new Appointment(curr.getEndTime(), next.getStartTime(), "Nap"));
-					Collections.sort(schedule);
-					i++;
+				if (!curr.getEndTime().equals(next.getStartTime()) && next.getStartTime().compareTo(curr.getEndTime()) > 0) {
+					boolean shouldAdd = true;
+					for (int j = 0; j < i; j++)
+						if (schedule.get(j).endTime.toMinutes() >= next.getStartTime().toMinutes())
+							shouldAdd = false;
+					if (shouldAdd){					
+						schedule.add(i, new Appointment(curr.getEndTime(), next.getStartTime(), "Nap"));
+						Collections.sort(schedule);
+						i++;
+					}
 				}
 				// System.out.println(i);
 			}
@@ -63,7 +69,8 @@ public class Main {
 			// Output
 
 			System.out.println("Day #" + Day++ + ": the longest nap starts at " + LongestNap.getStartTime().toString()
-					+ " and will last for " + LongestNap.getDuration().getHour() + " hours and "
+					+ " and will last for " + (LongestNap.getDuration().getHour() > 0 ? LongestNap.getDuration().getHour() + " hours and " :
+						"" )
 					+ LongestNap.getDuration().getMin() + " minutes.");
 
 			pSchedule(schedule);
@@ -93,7 +100,7 @@ public class Main {
 			} else if (curr.getStartTime().compareTo(Last.getEndTime()) < 0 && curr.getStartTime().compareTo(Last.getStartTime()) > 0) {
 				schedule.get(i - 1).setEndTime(curr.getEndTime());
 				schedule.remove(i);
-				checkOverlaps(schedule);
+				//checkOverlaps(schedule);
 			} else if (curr.getEndTime().compareTo(Last.getEndTime()) < 0) {
 				schedule.remove(i);
 			}

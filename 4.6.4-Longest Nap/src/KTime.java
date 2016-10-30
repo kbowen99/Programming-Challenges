@@ -52,4 +52,8 @@ public class KTime implements Comparator, Comparable {
 			return false;
 		return true;
 	}
+	
+	public int toMinutes(){
+		return (this.hour * 60) + this.min;
+	}
 }
