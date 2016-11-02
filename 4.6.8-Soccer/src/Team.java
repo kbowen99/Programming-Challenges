@@ -67,15 +67,52 @@ public class Team implements Comparator, Comparable{
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		//if (this.totalPoints > )
-		return 0;
+	public int compareTo(Object arg01) {
+		Team other = (Team)arg01;
+		/*
+		 * First by total Points
+		 */
+		if (this.totalPoints > other.getTotalPoints())
+			return -1;
+		if (this.totalPoints < other.getTotalPoints())
+			return 1;
+		/*
+		 * Second by wins
+		 */
+		if (this.wins > other.getWins())
+			return -1;
+		if (this.wins < other.getWins())
+			return 1;
+		/*
+		 * Third by goal difference
+		 */
+		if ((this.goalsScored - this.goalsLost) > (other.getGoalsScored() - other.getGoalsLost()))
+			return -1;
+		if ((this.goalsScored - this.goalsLost) < (other.getGoalsScored() - other.getGoalsLost()))
+			return 1;
+		/*
+		 * Fourth by goals scored
+		 */
+		if (this.goalsScored > other.getGoalsScored())
+			return -1;
+		if (this.goalsScored < other.getGoalsScored())
+			return 1;
+		/*
+		 * Fifth by least games
+		 */
+		if (this.gamesPlayed < other.getGamesPlayed())
+			return -1;
+		if (this.gamesPlayed > other.getGamesPlayed())
+			return 1;		
+		/*
+		 * Sixth, Lexicographically 
+		 */
+		return this.name.toLowerCase().compareTo(other.getName().toLowerCase());
 	}
 
 	@Override
 	public int compare(Object arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		return 0;
+		return ((Team)arg0).compareTo(((Team)arg1));
 	}
 
 	public int getTotalPoints() {
