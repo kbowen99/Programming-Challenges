@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.math.BigInteger;
 import java.util.Scanner;
 
@@ -11,11 +12,13 @@ public class Main {
 			while (sc.hasNextLine()) {
 				int A = sc.nextInt();
 				int B = sc.nextInt();
-				int D = gcd(A, B);
-				System.out.println(A + "X + " + B + "Y = " + D);
-				tryEuclid(A, B);
-				//System.out.println("(" + X + "," + Y + ")");
-				//System.out.println(D + "");
+				int X = 0;
+				int Y = 0;
+				//System.out.println(A + "X + " + B + "Y = " + gcd(A, B));
+				Point XP = untilEqXP(A,B,X,Y);
+				Point YP = untilEqYP(A,B,X,Y);
+				System.out.print(((Math.abs(XP.getX()) + Math.abs(XP.getY())) < (Math.abs(YP.getX()) + Math.abs(YP.getY()))) ? (int)XP.getX() + " " + (int)XP.getY() : (int)YP.getX() + " " + (int)YP.getY());
+				System.out.println(" " + gcd(A,B));
 			}
 		} catch (Exception e) {
 		}
@@ -26,23 +29,27 @@ public class Main {
 		return ((new BigInteger(A + "")).gcd(new BigInteger(B + ""))).intValue();
 	}
 	
-	public static int eGCD(int A, int B){
-		if (B>A)
-			return eGCD(B,A);
-		if (A%B > 0){
-			//System.out.println("GCD-Ing: " + A + " = " + (A/B) + " * " + B + " + " + (A%B));
-			//System.out.println("Maybe: " + (A%B) + " = " + A + " * -" + (A/B) + " " + B);
-			return eGCD(B,(A%B));
-		} else
-			return A/B;
+	public static Point untilEqXP(int A,int B, int X, int Y){
+		int D = gcd(A,B);
+		int LS = (A*X + B*Y);
+		if (LS == D)
+			return new Point(X,Y);
+		else 
+			if (LS < D)
+				return untilEqXP(A, B, X + 1,Y);
+			else
+				return untilEqXP(A,B,X,Y - 1);
 	}
 	
-	public static void tryEuclid(int A, int B){
-		int t = 2;
+	public static Point untilEqYP(int A,int B, int X, int Y){
 		int D = gcd(A,B);
-		int X = t*A/D;
-		int Y = -t*B/D;
-		
-		System.out.println(A + "(" + X + ")" + "+" + B + "(" + Y + ") = " + D);
+		int LS = (A*X + B*Y);
+		if (LS == D)
+			return new Point(X,Y);
+		else 
+			if (LS < D)
+				return untilEqYP(A, B, X, Y + 1);
+			else
+				return untilEqYP(A,B,X - 1,Y);
 	}
 }
