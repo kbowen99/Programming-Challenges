@@ -16,8 +16,8 @@ public class Main {
 				int X = 0;
 				int Y = 0;
 				if (A != 0 && B != 0){
-					Point XP = untilEqDir(A,B,X,Y,D,true);
-					Point YP = untilEqDir(A,B,X,Y,D,false);
+					Point XP = tilEqDirLoop(A,B,X,Y,D,true);
+					Point YP = tilEqDirLoop(A,B,X,Y,D,false);
 					System.out.print(((Math.abs(XP.getX()) + Math.abs(XP.getY())) < (Math.abs(YP.getX()) + Math.abs(YP.getY()))) ? (int)XP.getX() + " " + (int)XP.getY() : (int)YP.getX() + " " + (int)YP.getY());
 				} else 
 					if (A > 0)
@@ -25,6 +25,8 @@ public class Main {
 					else
 						System.out.print("0 1");
 				System.out.println(" " + gcd(A,B));
+				eGCD(A,B);
+				maybe(A,B);
 			}
 		} catch (Exception e) {
 		}
@@ -91,4 +93,44 @@ public class Main {
 						X--;
 		}
 	}
+	
+	public static int eGCD(int A, int B){
+		if (B>A)
+			return eGCD(B,A);
+		if (A%B > 0){
+			System.out.println("GCD-Ing: " + A + " = " + (A/B) + " * " + B + " + " + (A%B));
+			//System.out.println("Maybe: " + (A%B) + " = " + A + " * -" + (A/B) + " " + B);
+			return eGCD(B,(A%B));
+		} else
+			return A/B;
+	}
+	
+	public static void maybe(int A, int B){
+		int[] Q = {0,0,0,0,0,0,0,0,0,0};
+		int r = -1, i = 0;
+		while (r != 0){
+			i++;
+			r = A%B;
+			Q[i] = - (A/B);
+			A = B;
+			B = r;
+		}
+		if (i > 2)
+			for (i = i + 0; i >= 1; i -= 2)
+				Q[i] = Q[i + 2] + Q[i+1]*Q[i];
+		System.out.println(r + " : " + i);
+		for (int q : Q)
+			System.out.println(q);
+	}
+	
+	public static int[] maybe1(int A, int B){
+		if (B == 0)
+			return (new int[] {0,1,A});
+		
+		return null;
+			
+	}
+	/*
+	 * http://pages.pacificcoast.net/~cazelais/222/xeuclid.pdf
+	 */
 }
