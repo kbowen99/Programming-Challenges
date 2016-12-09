@@ -1,30 +1,20 @@
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.math.BigInteger;
+import java.util.Scanner;
 
 public class Main {
-	
+	static int[] primes = new int[10000010];
 	public static void main(String[] args) {
-		try {
-				System.setOut(new PrintStream(new FileOutputStream("out.txt")));
-		} catch (Exception e) {}
-		printApplicablePrimes(10000000);
+		Scanner sc = new Scanner(System.in);
+		int n = 0;
+		while ((n = sc.nextInt()) != 0){
+			
+		}
+		sc.close();
 	}
 	
-	private static void printApplicablePrimes(int lim){
-		p("{");
-		for (int i = 2; i < lim; i++)
-			if (isPrime(i))
-				p(i + ",");
-		p("};");
+	public static Object P(Object p){
+		System.out.println((String)p + "");return p;
 	}
-	
-	private static boolean isPrime(int n){
-		return (new BigInteger(n + "")).equals((new BigInteger(n - 1 + "")).nextProbablePrime());
-	}
-	
-	private static Object p(Object o){
-		System.out.println((String)o);
-		return o;
+	public static Object P(Object p, boolean t){
+		System.out.print((String)p + "");return p;
 	}
 }
