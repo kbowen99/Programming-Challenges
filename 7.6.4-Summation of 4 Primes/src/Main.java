@@ -4,23 +4,24 @@ public class Main {
 	static int[] xPrimes;
 	static boolean[] cPrimes;
 	public static void main(String[] args) {
-		sieveOfEratosthenes(1000000);
+		sieveOfEratosthenes(10000001);
 		Scanner sc = new Scanner(System.in);
 		int n = 0;
-		while ((n = sc.nextInt()) != 0){
+		while (sc.hasNextInt()){
+			n = sc.nextInt();
 			if (n < 8)
 				System.out.println("Impossible.");
 			else {
 				if (n % 2 == 0)
-					System.out.println("2 2 ");
+					System.out.print("2 2 ");
 				else
-					System.out.println("2 3 ");
+					System.out.print("2 3 ");
 				
 				n -= (4 + n % 2);
 				
 				for (int i = 0; i < xPrimes.length; i++)
 					if (!cPrimes[n - xPrimes[i]]){
-						System.out.println(xPrimes[i] + " " + xPrimes[i]);
+						System.out.println(xPrimes[i] + " " + (n - xPrimes[i]));
 						break;
 					}
 			}
