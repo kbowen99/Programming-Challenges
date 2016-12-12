@@ -15,11 +15,41 @@ public class Main {
 			for (int p = 0; p < numPeople; p++)
 				peoples.add(sc.nextInt());
 			Collections.sort(peoples);
-			System.out.println(sorter(t1,t2,peoples,true));
+			for (int i : peoples)
+				System.out.println(i);
+			System.out.println(newSort(t1,t2,peoples,true));
 		}
 		sc.close();
 	}
 	
+	public static String newSort(ArrayList<Integer> Team1, ArrayList<Integer> Team2, ArrayList<Integer> people, boolean dir){
+		if (people.size() == 0) //No More Weight
+			return getTeamWeight(Team1) + " " + getTeamWeight(Team2) + "\n " + Team1.size() + " | " + Team2.size();
+		if (dir){ //T1 gains Weight
+			if (getTeamWeight(Team1) > getTeamWeight(Team2))//T1 Gains Little Weight
+				Team1.add(people.remove(0));
+			else
+				Team1.add(people.remove(people.size() - 1));
+			return newSort(Team1,Team2,people,!dir);
+		} else { //T2 Gains Weight
+			if (getTeamWeight(Team2) > getTeamWeight(Team1)) //T2 Small Gain
+				Team2.add(people.remove(0));
+			else
+				Team2.add(people.remove(people.size() - 1));
+			return newSort(Team1,Team2,people,!dir);
+		}
+	}
+
+	
+	private static int getTeamWeight(ArrayList<Integer> team){
+		int total = 0;
+		for (Integer i : team)
+			total += i;
+		return total;
+	}
+	
+	//----------------------------------Bad Code Abyss
+	@Deprecated
 	private static String sorter(ArrayList<Integer> Team1, ArrayList<Integer> Team2, ArrayList<Integer> people, boolean dir){
 		if (people.size() == 0){
 			//makeAmericaGreatAgain(Team1,Team2);
@@ -30,25 +60,18 @@ public class Main {
 			else
 				return sorter(I2A(people.remove(people.size() - 1), Team1),Team2, people, dir);
 	}
-	
-	private static int getTeamWeight(ArrayList<Integer> team){
-		int total = 0;
-		for (Integer i : team)
-			total += i;
-		return total;
-	}
-	
+	@Deprecated
 	private static ArrayList<Integer> I2A(int toAdd, ArrayList<Integer> arr){
 		arr.add(toAdd);
 		return arr;
 	}
-	
+	@Deprecated
 	private static boolean T2T(ArrayList<Integer> T1, ArrayList<Integer> T2, ArrayList<Integer> p){
 		int DeltaT1Gains = Math.abs((getTeamWeight(T1) + p.get(p.size() - 1)) - getTeamWeight(T2));
 		int DeltaT2Gains = Math.abs(getTeamWeight(T1) - (getTeamWeight(T2) + p.get(p.size() - 1)));
 		return DeltaT1Gains >= DeltaT2Gains;
 	}
-	
+	@Deprecated
 	private static boolean makeAmericaGreatAgain(ArrayList<Integer> t1, ArrayList<Integer> t2){
 		Collections.sort(t1);
 		Collections.sort(t2);
