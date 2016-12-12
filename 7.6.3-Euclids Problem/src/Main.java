@@ -8,27 +8,10 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		try {
-			while (sc.hasNextLine()) {
-				int A = sc.nextInt();
-				int B = sc.nextInt();
-				int D = gcd(A,B);
-				int X = 0;
-				int Y = 0;
-				if (A != 0 && B != 0){
-					Point XP = tilEqDirLoop(A,B,X,Y,D,true);
-					Point YP = tilEqDirLoop(A,B,X,Y,D,false);
-					System.out.print(((Math.abs(XP.getX()) + Math.abs(XP.getY())) < (Math.abs(YP.getX()) + Math.abs(YP.getY()))) ? (int)XP.getX() + " " + (int)XP.getY() : (int)YP.getX() + " " + (int)YP.getY());
-				} else 
-					if (A > 0)
-						System.out.print("1 0");
-					else
-						System.out.print("0 1");
-				System.out.println(" " + gcd(A,B));
-				eGCD(A,B);
-				maybe(A,B);
-			}
-		} catch (Exception e) {
+		while (sc.hasNextInt()) {
+			int A = sc.nextInt(); int B = sc.nextInt();
+			Point maybe = newEuclid((A == B ? 0 : A),B);
+			System.out.println((int)maybe.getX() + " " + (int)maybe.getY() + " " + gcd(A,B));
 		}
 		sc.close();
 	}
@@ -72,6 +55,7 @@ public class Main {
 	 * @param Dir true - XP; false - YP;
 	 * @return Calculated Point
 	 */
+	@Deprecated
 	public static Point tilEqDirLoop(int A,int B, int X, int Y, int D, boolean Dir){
 		int mS = 1000000001;
 		while (true){
@@ -94,43 +78,37 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Euclid's logic, Simplified
+	 * @param A
+	 * @param B
+	 * @return
+	 */
+	@Deprecated
 	public static int eGCD(int A, int B){
 		if (B>A)
 			return eGCD(B,A);
 		if (A%B > 0){
-			System.out.println("GCD-Ing: " + A + " = " + (A/B) + " * " + B + " + " + (A%B));
+			//System.out.println("GCD-Ing: " + A + " = " + (A/B) + " * " + B + " + " + (A%B));
 			//System.out.println("Maybe: " + (A%B) + " = " + A + " * -" + (A/B) + " " + B);
 			return eGCD(B,(A%B));
 		} else
 			return A/B;
 	}
 	
-	public static void maybe(int A, int B){
-		int[] Q = {0,0,0,0,0,0,0,0,0,0};
-		int r = -1, i = 0;
-		while (r != 0){
-			i++;
-			r = A%B;
-			Q[i] = - (A/B);
-			A = B;
-			B = r;
-		}
-		if (i > 2)
-			for (i = i + 0; i >= 1; i -= 2)
-				Q[i] = Q[i + 2] + Q[i+1]*Q[i];
-		System.out.println(r + " : " + i);
-		for (int q : Q)
-			System.out.println(q);
-	}
-	
-	public static int[] maybe1(int A, int B){
-		if (B == 0)
-			return (new int[] {0,1,A});
-		
-		return null;
-			
-	}
-	/*
-	 * http://pages.pacificcoast.net/~cazelais/222/xeuclid.pdf
+	/**
+	 * It only took forever to realize, It was that simple
+	 * @param A "A"
+	 * @param B "B"
+	 * @return The Number You've Been Looking For Forever
 	 */
+	public static Point newEuclid(int A, int B){
+		Point X = new Point(0, 1);
+		if (A != 0 && B != 0){
+			Point tmp = newEuclid(B%A, A);
+			X.setLocation((tmp.getY() - (B/A) * tmp.getX()), tmp.getX());
+		}
+		return X;
+	}
+
 }
