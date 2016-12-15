@@ -7,32 +7,54 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		int numGames = sc.nextInt();
 		for (int useLess = 0; useLess < numGames; useLess++){
-			ArrayList<Integer> peoples = new ArrayList<>(), t1 = new ArrayList<>(), t2 = new ArrayList<>();
-			/*
-			 * People The List
-			 */
-			int numPeople = sc.nextInt();
-			for (int p = 0; p < numPeople; p++)
-				peoples.add(sc.nextInt());
-			ArrayList<Integer> peoples2 = new ArrayList<>(peoples);
-			Collections.sort(peoples);
-			String nS = newSort(t1,t2,peoples,true);
-			String lS = lazySort(peoples2);
-			
-			System.out.println(pSort(nS,lS) + "\n");
+			int cases = sc.nextInt();
+			int [] weight = new int[100]; // <= 100 people at picnic (From problem Statement)
+			boolean[] minWeight  = new boolean[(450 * 100 + 50) / 2]; //Weight = 1-450; 0-100 people; Each Team can only hold ~1/2 the people
+			int[] minPeople = new int[(450 * 100 + 50) / 2];
+			int[] maxPeople = new int[(450 * 100 + 50) / 2];
+			int allTheWeight = 0;
+			//Get all the peoples
+			for (int i = 0; i < cases; i++)
+				allTheWeight += weight[i] = sc.nextInt();
+			//Prepare the arrays (set Base Value)
+			for (int i = 0; i < minWeight.length; i++){
+				minWeight[i] = (i == 0 ? true : false);
+				minPeople[i] = (i == 0 ? 0 : Integer.MAX_VALUE);
+				maxPeople[i] = 0;
+			}
+			//Black Magic (Check EVERY POSSIBLE WAY to Distribute Mass)
+			for (int i = 0; i < cases; i++)
+				for (int j = allTheWeight/2 + 5; j >= 0; j--)
+					if (minWeight[j]){
+						minWeight [j + weight [i]] = true;
+	                    if ( minPeople [j + weight [i]] > minPeople [j] + 1)
+	                        minPeople [j + weight [i]] = minPeople [j] + 1;
+	                    if ( maxPeople [j + weight [i]] < maxPeople [j] + 1)
+	                        maxPeople [j + weight [i]] = maxPeople [j] + 1;
+					}
+			for ( int i = allTheWeight / 2; i >= 0; i-- ) 
+	            if ( minWeight [i] && ((minPeople [i] <= cases / 2 && maxPeople [i] >= cases / 2) || (minPeople [i] <= cases / 2 + cases % 2 && maxPeople [i] >= cases / 2 + cases % 2)) ) {
+	                System.out.println(i + " " + (allTheWeight - i)); break;
+	            }
 		}
 		sc.close();
 	}
 	
+	
+	/* Ignore old code. Correct Way is to calculate all possibilities rapidly, and compare from there out (comp. all Permutations)
+	 * This Code is left as an example (reSort() is an awesomely effective Recursive Function (I'm A little proud of how fast it is)
+	 */
+	@Deprecated
 	public static String pSort(String o1, String o2){
+		//return o1;
 		int o1d = Math.abs(Integer.parseInt(o1.substring(0, o1.indexOf(" "))) - Integer.parseInt(o1.substring(o1.indexOf(" ") + 1)));
 		int o2d = Math.abs(Integer.parseInt(o2.substring(0, o2.indexOf(" "))) - Integer.parseInt(o2.substring(o2.indexOf(" ") + 1)));
 		return (o1d < o2d ? o1 : o2);
 	}
 	
+	@Deprecated
 	public static String newSort(ArrayList<Integer> Team1, ArrayList<Integer> Team2, ArrayList<Integer> people, boolean dir){
 		if (people.size() == 0){ //No More Weight
-			reSort(Team1, Team2, false);
 			reSort(Team1, Team2, false);
 			return (getTeamWeight(Team1) < getTeamWeight(Team2) ? getTeamWeight(Team1) + " " + getTeamWeight(Team2) : getTeamWeight(Team2) + " " + getTeamWeight(Team1));
 		}
@@ -51,6 +73,7 @@ public class Main {
 		}
 	}
 	
+	@Deprecated
 	private static boolean reSort(ArrayList<Integer> Team1, ArrayList<Integer> Team2, boolean f){
 		int d = Math.abs(getTeamWeight(Team1) - getTeamWeight(Team2));
 		for (int T1 = 0; T1 < Team1.size(); T1++)
@@ -68,6 +91,7 @@ public class Main {
 		return false;
 	}
 	
+	@Deprecated
 	private static int getTeamWeight(ArrayList<Integer> team){
 		int total = 0;
 		for (Integer i : team)
