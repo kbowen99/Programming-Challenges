@@ -30,7 +30,8 @@ public class Main {
 					addEdge(l, k, distance, aList);
 				}
 			}
-			System.out.printf("%.2f\n\n", BlackMagic(aList));
+			System.out.printf("%.2f\n", BlackMagic(aList));
+			System.out.print((u == CASES - 1? "" : "\n"));
 		}
 		sc.close();
 	}
