@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in,  "ISO-8859-1");
+		Outputter out = new Outputter();
 		int Tournaments = Integer.parseInt(sc.nextLine()); // First Line of Input - # of Tournaments
 		for (int TournyNum = 0; TournyNum < Tournaments; TournyNum++) {
 			ArrayList<Team> scorecard = new ArrayList<>();
@@ -32,14 +33,14 @@ public class Main {
 			//update team Rankings
 			updateTeamRankings(scorecard);
 			
-			System.out.println(tournyName);
+			out.println(tournyName);
 			//print teams
 			for (Team t : scorecard)
-				System.out.println(t.toString());
-			System.out.println();
+				out.println(t.toString() + (t == scorecard.get(scorecard.size() - 1) ? "\n" : ""));
 			
 		}
 		sc.close();
+		out.dump();
 	}
 	
 	private static int findTeamIndex(ArrayList<Team> listOTeams, String teamName){
