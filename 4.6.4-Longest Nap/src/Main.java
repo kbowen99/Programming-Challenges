@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 
-	static final boolean DEBUG = true;
+	static final boolean DEBUG = false;
 
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
