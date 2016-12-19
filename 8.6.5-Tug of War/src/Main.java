@@ -33,9 +33,10 @@ public class Main {
 	                        maxPeople [j + weight [i]] = maxPeople [j] + 1;
 					}
 			for ( int i = allTheWeight / 2; i >= 0; i-- ) 
-	            if ( minWeight [i] && ((minPeople [i] <= cases / 2 && maxPeople [i] >= cases / 2) || (minPeople [i] <= cases / 2 + cases % 2 && maxPeople [i] >= cases / 2 + cases % 2)) ) {
-	                System.out.println(i + " " + (allTheWeight - i)); break;
-	            }
+				if (minWeight[i])
+					if ((minPeople[i] <= (cases/2) && maxPeople[i] >= (cases/2)) || (minPeople[i] <= (cases/2 + cases%2) && maxPeople[i] >= (cases/2 + cases%2)))
+						{System.out.println(i + " " + (allTheWeight - i) + (useLess == numGames - 1 ? "" : "\n")); break;}
+	            
 		}
 		sc.close();
 	}
