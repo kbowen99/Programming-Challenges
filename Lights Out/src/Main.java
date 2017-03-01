@@ -12,23 +12,20 @@ public class Main {
 			grid = new boolean[8][8];
 			String lineIn = sc.nextLine();
 			ArrayList<String> magic = new ArrayList<String>(Arrays.asList(lineIn.split(" ")));
-			//MultiCol Rows
+			//STARTING DATA. WHY WASNT THAT EXPLAINED?
 			int r = Integer.parseInt(magic.remove(0));//GetNum Rows
 			while (!magic.isEmpty() && r-- > 0){
 				char[] tmp = magic.remove(0).toCharArray();
 				for (int c = 1; c < tmp.length; c++)
 					grid[Integer.parseInt(tmp[0] + "") - 1][Integer.parseInt(tmp[c] + "") - 1] = true;
-					//pressPixel(Integer.parseInt(tmp[0] + ""),Integer.parseInt(tmp[c] + ""), grid);
 			}
 			
-			
-			//Buttons
+			//Press Singular Buttons
 			int numButtons = Integer.parseInt(magic.remove(0));
-			while (numButtons-- > 0){
+			while (numButtons-- > 0)
 				pressPixel(Integer.parseInt(magic.get(0).toCharArray()[0] + ""), Integer.parseInt(magic.remove(0).toCharArray()[1] + ""), grid);
-				System.out.println("HIH");
-			}
 			
+			//Count 'ON' Entities
 			int ONTILES = 0;
 			for (boolean[] row : grid)
 				for (boolean b: row)
@@ -38,10 +35,19 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Lazy Logic for Pixel Pressing/Inverting
+	 * this as a method made more sense when i Misunderstood the principle of starting input, then manipulating that input...
+	 * @param x - X Coord. of 'Pixel' to Press
+	 * @param y - Y Coord. of 'Pixel' to Press
+	 * @param magic - The Boolean Grid being passed
+	 */
 	private static void pressPixel(int x, int y, boolean[][] magic){
+		//Convert to real world standards
 		x--;
 		y--;
 		magic[x][y] = !magic[x][y];
+		
 		//Vert/Horiz
 		if (x > 0)//X - 1
 			magic[x - 1][y] = !magic[x - 1][y];
@@ -69,9 +75,15 @@ public class Main {
 			magic[x + 2][y] = !magic[x + 2][y];
 		if (y < 6)//Y +
 			magic[x][y + 2] = !magic[x][y + 2];
-		printGrid(grid);
+		//printGrid(grid);
 	}
 	
+	/**
+	 * Method to verify my insanity
+	 * @param grid - Grid To Print
+	 */
+	@SuppressWarnings("unused")
+	@Deprecated
 	private static void printGrid(boolean[][] grid){
 		for (boolean[] row : grid){
 			for (boolean c : row)
