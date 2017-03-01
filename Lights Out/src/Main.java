@@ -17,14 +17,15 @@ public class Main {
 			while (!magic.isEmpty() && r-- > 0){
 				char[] tmp = magic.remove(0).toCharArray();
 				for (int c = 1; c < tmp.length; c++)
-					pressPixel(Integer.parseInt(tmp[0] + ""),Integer.parseInt(tmp[c] + ""), grid);
+					grid[Integer.parseInt(tmp[0] + "") - 1][Integer.parseInt(tmp[c] + "") - 1] = true;
+					//pressPixel(Integer.parseInt(tmp[0] + ""),Integer.parseInt(tmp[c] + ""), grid);
 			}
 			
 			
 			//Buttons
 			int numButtons = Integer.parseInt(magic.remove(0));
 			while (numButtons-- > 0){
-				pressPixel(Integer.parseInt(magic.get(0).toCharArray()[1] + ""), Integer.parseInt(magic.remove(0).toCharArray()[0] + ""), grid);
+				pressPixel(Integer.parseInt(magic.get(0).toCharArray()[0] + ""), Integer.parseInt(magic.remove(0).toCharArray()[1] + ""), grid);
 				System.out.println("HIH");
 			}
 			
