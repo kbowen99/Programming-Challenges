@@ -10,15 +10,27 @@ public class Main {
 		Scanner lineScan = new Scanner(magic);
 		lineScan.useDelimiter(", ");
 		
+		/*
+		 * Extremely Over Complicated Data Input
+		 * Parses first Line of Data into starting grid
+		 */
 		try{
 			String s;
 			for (int i = 0;!(s = lineScan.next()).isEmpty(); i++){
-				if (i == 0)
+				if (i == 0 || i == 5)
 					for (int c = 0; c < Grid[0].length; c++)
-						Grid[0][c] = ((" " + s.trim() + " ").toCharArray()[c]==' ' ? 0 : Integer.parseInt((" " + s.trim() + " ").toCharArray()[c] + ""));
-				System.out.println(s);
+						Grid[i][c] = ((" " + s.trim() + " ").toCharArray()[c]==' ' ? 0 : Integer.parseInt((" " + s.trim() + " ").toCharArray()[c] + ""));
+				else if (s.trim().length() == 2)
+					for (int C = 0; C < 2; C++)
+						Grid[i][(C==0?0:5)] = Integer.parseInt(s.trim().toCharArray()[(C==0?0:1)] + "");
+				else if (s.trim().length() == 6)
+					for (int c = 0; c < s.trim().length(); c++)
+						Grid[i][c] = Integer.parseInt(s.trim().toCharArray()[c] + "");
+				else
+					System.out.println(s);
 			}
 		} catch (Exception x){}
+		lineScan.close();
 		printGrid(Grid);
 	}
 	
